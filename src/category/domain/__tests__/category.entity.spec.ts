@@ -1,4 +1,5 @@
-import { Category } from "../category.entity";
+import { Uuid } from '../../../shared/domain/value-objects/uuid.value-object';
+import { Category } from '../category.entity';
 
 describe('Category Unit Tests', () => {
   describe('Constructor', () => {
@@ -8,11 +9,11 @@ describe('Category Unit Tests', () => {
         createdAt: new Date()
       });
 
-      expect(category.categoryId).toBeUndefined();
+      expect(category.category_id).toBeInstanceOf(Uuid);
       expect(category.name).toBe('Movie');
       expect(category.description).toBeNull();
       expect(category.is_active).toBe(true);
-      expect(category.createdAt).toBeInstanceOf(Date);
+      expect(category.created_at).toBeInstanceOf(Date);
     });
 
     test('should create a cateogry with description', () => {
@@ -24,11 +25,28 @@ describe('Category Unit Tests', () => {
         createdAt
       });
 
-      expect(category.categoryId).toBeUndefined();
+      expect(category.category_id).toBeInstanceOf(Uuid);
       expect(category.name).toBe('Series');
       expect(category.description).toBe('Series description');
       expect(category.is_active).toBe(false);
-      expect(category.createdAt).toBe(createdAt);
+      expect(category.created_at).toBe(createdAt);
+    });
+  });
+
+  describe('category_id field', () => {
+    const arrange = [
+      { id: null },
+      { id: undefined },
+      { id: new Uuid() }
+    ];
+
+    test.each(arrange)('should create a category with category_id: %p', ({ id }) => {
+      const category = new Category({
+        category_id: id as any,
+        name: 'Movie',
+      });
+
+      expect(category.category_id).toBeInstanceOf(Uuid);
     });
   });
 
@@ -38,11 +56,11 @@ describe('Category Unit Tests', () => {
         name: 'Movie'
       });
 
-      expect(category.categoryId).toBeUndefined();
+      expect(category.category_id).toBeInstanceOf(Uuid);
       expect(category.name).toBe('Movie');
       expect(category.description).toBeNull();
       expect(category.is_active).toBe(true);
-      expect(category.createdAt).toBeInstanceOf(Date);
+      expect(category.created_at).toBeInstanceOf(Date);
     });
 
     test('should create category with description', () => {
@@ -51,11 +69,11 @@ describe('Category Unit Tests', () => {
         description: 'Series description',
       });
 
-      expect(category.categoryId).toBeUndefined();
+      expect(category.category_id).toBeInstanceOf(Uuid);
       expect(category.name).toBe('Series');
       expect(category.description).toBe('Series description');
       expect(category.is_active).toBe(true);
-      expect(category.createdAt).toBeInstanceOf(Date);
+      expect(category.created_at).toBeInstanceOf(Date);
     });
 
     test('should create category with is_active', () => {
@@ -64,11 +82,11 @@ describe('Category Unit Tests', () => {
         is_active: false,
       });
 
-      expect(category.categoryId).toBeUndefined();
+      expect(category.category_id).toBeInstanceOf(Uuid);
       expect(category.name).toBe('Series');
       expect(category.description).toBeNull();
       expect(category.is_active).toBe(false);
-      expect(category.createdAt).toBeInstanceOf(Date);
+      expect(category.created_at).toBeInstanceOf(Date);
     });
   });
 

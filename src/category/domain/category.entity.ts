@@ -1,5 +1,7 @@
+import { Uuid } from '../../shared/domain/value-objects/uuid.value-object';
+
 export type CategoryParams = {
-  categoryId?: string;
+  category_id?: Uuid;
   name: string;
   description?: string | null;
   is_active?: boolean;
@@ -13,18 +15,18 @@ export type CategoryCreateCommand = {
 };
 
 export class Category {
-  categoryId: string;
+  category_id: Uuid;
   name: string;
   description: string | null;
   is_active: boolean;
-  createdAt: Date;
+  created_at: Date;
 
   constructor(params: CategoryParams) {
-    this.categoryId = params.categoryId;
+    this.category_id = params.category_id ?? new Uuid();
     this.name = params.name;
     this.description = params.description ?? null;
     this.is_active = params.is_active ?? true;
-    this.createdAt = params.createdAt ?? new Date();
+    this.created_at = params.createdAt ?? new Date();
   }
 
   static create(params: CategoryCreateCommand): Category {
@@ -49,11 +51,11 @@ export class Category {
 
   toJSON() {
     return {
-      categoryId: this.categoryId,
+      category_id: this.category_id.id,
       name: this.name,
       description: this.description,
       is_active: this.is_active,
-      createdAt: this.createdAt,
+      created_at: this.created_at,
     };
   }
 }
