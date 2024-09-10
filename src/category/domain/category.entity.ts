@@ -1,4 +1,6 @@
+import { Entity } from '../../shared/domain/entity';
 import { EntityValidationError } from '../../shared/domain/validators/validation-error';
+import { ValueObject } from '../../shared/domain/value-object';
 import { Uuid } from '../../shared/domain/value-objects/uuid.value-object';
 import { CategoryValidatorFactory } from './cateogry.validator';
 
@@ -16,7 +18,7 @@ export type CategoryCreateCommand = {
   is_active?: boolean;
 };
 
-export class Category {
+export class Category extends Entity {
   category_id: Uuid;
   name: string;
   description: string | null;
@@ -24,11 +26,16 @@ export class Category {
   created_at: Date;
 
   constructor(params: CategoryParams) {
+    super();
     this.category_id = params.category_id ?? new Uuid();
     this.name = params.name;
     this.description = params.description ?? null;
     this.is_active = params.is_active ?? true;
     this.created_at = params.createdAt ?? new Date();
+  }
+
+  get entity_id(): ValueObject {
+    return this.category_id;
   }
 
   static create(params: CategoryCreateCommand): Category {
