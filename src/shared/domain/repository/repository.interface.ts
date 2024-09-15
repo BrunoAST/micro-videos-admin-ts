@@ -10,5 +10,15 @@ export interface IRepository<E extends Entity, EntityId extends ValueObject> {
   findById(entity_id: EntityId): Promise<E | null>;
   findAll(): Promise<E[]>;
 
-  getEntity(): new(...args: any) => E;
+  getEntity(): new (...args: any) => E;
+}
+
+export interface ISearchableRepository<
+  E extends Entity,
+  EntityId extends ValueObject,
+  SearchInput,
+  SearchOutput
+> extends IRepository<E, EntityId> {
+  sortableFields: string[];
+  search(props: SearchInput): Promise<SearchOutput>;
 }
